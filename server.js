@@ -1,10 +1,21 @@
 import express from 'express';
 import { chromium } from 'playwright';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Polyfill for process in case it's undefined (for some ESM environments)
+if (typeof process === 'undefined') {
+  globalThis.process = { env: {} };
+}
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, 'dist')));
 
 function findMuxPlaybackIds(obj, found = []) {
   if (typeof obj !== 'object' || obj === null) return found;
@@ -50,6 +61,15 @@ app.post('/extract', async (req, res) => {
   else res.status(404).json({ error: 'muxPlaybackId not found' });
 });
 
-app.listen(3001, () => {
-  console.log('✅ Extractor API running on http://localhost:3001');
+
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
+// Modify this to use Railway's PORT
+const port = 3001;
+app.listen(port, () => {
+  console.log(`✅ Server running on port ${port}`);
 });

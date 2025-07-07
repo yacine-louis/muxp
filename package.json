@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "npm run build && node server.js",
+    "postinstall": "npx playwright install chromium"
   },
   "dependencies": {
     "@playwright/test": "^1.53.2",
