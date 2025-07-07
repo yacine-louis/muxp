@@ -69,7 +69,7 @@ app.get('*', (req, res) => {
 });
 
 // Modify this to use Railway's PORT
-const port = 3001;
+const port = import.meta.env.PORT || 3001;
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);
 });
