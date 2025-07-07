@@ -53,7 +53,7 @@ app.post('/extract', async (req, res) => {
     await page.goto(url, { waitUntil: 'networkidle' });
     await page.waitForTimeout(5000);
   } catch (e) {
-    console.error('Error during page navigation:', e);
+    
   }
 
   await browser.close();
@@ -64,7 +64,7 @@ app.post('/extract', async (req, res) => {
 
 
 
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
